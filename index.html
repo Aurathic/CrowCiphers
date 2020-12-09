@@ -862,6 +862,10 @@
             encodeCrowChar = (x) => 
                 /[a-z]/.test(x) ? crow_lang_dict[x] : 
                 /[A-Z]/.test(x) ? crow_lang_dict[x.toLowerCase()].toUpperCase() :
+                x    
+            decodeCrowChar = (x) => 
+                /[a-z]/.test(x) ? getKeyByValue(crow_lang_dict, x) : 
+                /[A-Z]/.test(x) ? getKeyByValue(crow_lang_dict, x.toLowerCase()).toUpperCase() :
                 x
             encodeCrow = () => {
                 crow_cipher.value = crow_plain.value.split("")
@@ -869,7 +873,7 @@
             }
             decodeCrow = () => {
                 crow_plain.value = crow_cipher.value.split("")
-                    .map((x) => getKeyByValue(crow_lang_dict, x)).join("");
+                    .map((x) => decodeCrowChar(x)).join("");
             }
             encodeVigenereChar = (x,i) => 
                 /* /[0-9]/.test(x) ? 
