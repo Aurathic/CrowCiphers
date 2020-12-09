@@ -14,6 +14,7 @@
             #crow_plaintext, #crow_ciphertext { flex: 45%; }
             #vige_plaintext, #vige_ciphertext { flex: 35%; }
             #vige_key { flex: 20%; }
+            textarea { font-size: 16px; }
 .column {
   flex: 50%;
 }
@@ -25,14 +26,14 @@
         </header>
     <h2>Crow Language</h1>
         <div id="crow_lang" class="flex"> 
-            <textarea id="crow_plaintext" pattern="[a-z]+"  placeholder="Plaintext (e.g. 'hiwtwxtls')" onInput="encodeCrow()"></textarea>
+            <textarea id="crow_plaintext" pattern="[a-z]+"  placeholder="Ciphertext (e.g. 'hiwtwxtls')" onInput="encodeCrow()"></textarea>
             <textarea id="crow_ciphertext" pattern="[a-z]+" placeholder="Plaintext (e.g. 'iranandnow')" onInput="decodeCrow()"></textarea>
         </div>
     <h2>Vigenere Cipher</h1>
         <div id="vige_ciph" class="flex">
-            <textarea id="vige_plaintext" pattern="[0-9]+" placeholder="Plaintext (e.g. '30781354841')" onInput="encodeVigenere()"></textarea>
+            <textarea id="vige_plaintext" pattern="[0-9]+" placeholder="Ciphertext (e.g. '30781354841')" onInput="encodeVigenere()"></textarea>
             <textarea id="vige_key" pattern="[a-z]+" placeholder="Key (e.g. 'crow')" onInput="encodeVigenere()"></textarea>
-            <textarea id="vige_ciphertext" pattern="[a-z]+" placeholder="Ciphertext (e.g. 'forotherkin')" onInput="decodeVigenere()"></textarea>
+            <textarea id="vige_ciphertext" pattern="[a-z]+" placeholder="Plaintext (e.g. 'forotherkin')" onInput="decodeVigenere()"></textarea>
         </div>
     </body>
     <script>
