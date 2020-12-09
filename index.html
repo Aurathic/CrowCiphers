@@ -9,6 +9,14 @@
             code {background: white;}
             a {border-bottom: 1px solid #444444; color: #444444; text-decoration: none;}
             a:hover {border-bottom: 0;}
+            .flex { display: flex; justify-content: space-between; }
+            .flex > * {margin: 4px; height: 3em ;}
+            #crow_plaintext, #crow_ciphertext { flex: 45%; }
+            #vige_plaintext, #vige_ciphertext { flex: 35%; }
+            #vige_key { flex: 20%; }
+.column {
+  flex: 50%;
+}
         </style>
     </head>
     <body>
@@ -16,16 +24,102 @@
             <h1>Crow Ciphers</h1>
         </header>
     <h2>Crow Language</h1>
-        <div id="crow_lang"> 
-            <input>
-            <input>
-            <input>
+        <div id="crow_lang" class="flex"> 
+            <textarea id="crow_plaintext" pattern="[a-z]+"  placeholder="Plaintext (e.g. 'hiwtwxtls')" onInput="encodeCrow()"></textarea>
+            <textarea id="crow_ciphertext" pattern="[a-z]+" placeholder="Plaintext (e.g. 'iranandnow')" onInput="decodeCrow()"></textarea>
         </div>
     <h2>Vigenere Cipher</h1>
-        <div id="vige_ciph">
-            <input>
-            <input>
-            <input>
+        <div id="vige_ciph" class="flex">
+            <textarea id="vige_plaintext" pattern="[0-9]+" placeholder="Plaintext (e.g. '30781354841')" onInput="encodeVigenere()"></textarea>
+            <textarea id="vige_key" pattern="[a-z]+" placeholder="Key (e.g. 'crow')" onInput="encodeVigenere()"></textarea>
+            <textarea id="vige_ciphertext" pattern="[a-z]+" placeholder="Ciphertext (e.g. 'forotherkin')" onInput="decodeVigenere()"></textarea>
         </div>
     </body>
+    <script>
+            crow_plain = document.getElementById("crow_plaintext");
+            crow_cipher = document.getElementById("crow_ciphertext");
+            vige_plain = document.getElementById("vige_plaintext");
+            vige_key = document.getElementById("vige_key");
+            vige_cipher = document.getElementById("vige_ciphertext");
+            crow_lang_dict = {
+                "a": "s",
+                "b": "f",
+                "c": "t",
+                "d": "z",
+                "e": "l",
+                "f": "q",
+                "g": "u",
+                "h": "i",
+                "i": "r",
+                "j": "v",
+                "k": "y",
+                "l": "o",
+                "m": "j",
+                "n": "c",
+                "o": "e",
+                "p": "x",
+                "q": "m",
+                "r": "h",
+                "s": "w",
+                "t": "n",
+                "u": "p",
+                "v": "b",
+                "w": "a",
+                "x": "d",
+                "y": "k",
+                "z": "g"
+            };
+            vige_ciph_dict = {
+                "a": ["r", "o", "o", "s", "r", "l", "a", "e", "o", "n"],
+                "b": ["s", "j", "e", "d", "h", "i", "a", "d", "g", "e"],
+                "c": ["a", "t", "g", "f", "d", "m", "e", "o", "k", "r"],
+                "d": ["k", "a", "d", "e", "e", "u", "w", "h", "a", "e"],
+                "e": ["f", "u", "e", "n", "e", "o", "i", "n", "d", "n"],
+                "f": ["b", "i", "s", "h", "i", "m", "n", "t", "i", "s"],
+                "g": ["r", "o", "a", "f", "h", "d", "m", "n", "y", "c"],
+                "h": ["s", "s", "e", "f", "o", "a", "z", "t", "h", "h"],
+                "i": ["i", "e", "q", "m", "v", "e", "l", "a", "l", "r"],
+                "j": ["m", "r", "i", "o", "t", "h", "j", "s", "k", "c"],
+                "k": ["e", "o", "d", "y", "r", "s", "d", "h", "a", "i"],
+                "l": ["r", "e", "w", "m", "m", "a", "e", "l", "h", "x"],
+                "m": ["b", "a", "t", "l", "d", "d", "m", "d", "q", "d"],
+                "n": ["s", "i", "a", "n", "o", "p", "l", "m", "i", "e"],
+                "o": ["e", "n", "n", "f", "o", "e", "s", "r", "t", "l"],
+                "p": ["n", "p", "u", "r", "d", "l", "a", "r", "w", "t"],
+                "q": ["n", "t", "i", "i", "a", "w", "e", "o", "a", "d"],
+                "r": ["o", "g", "o", "h", "i", "t", "p", "u", "e", "y"],
+                "s": ["e", "e", "b", "a", "l", "o", "h", "m", "s", "t"],
+                "t": ["i", "t", "u", "i", "a", "t", "s", "r", "y", "t"],
+                "u": ["t", "i", "e", "o", "p", "a", "n", "f", "s", "a"],
+                "v": ["t", "i", "r", "i", "j", "d", "a", "t", "e", "s"],
+                "w": ["u", "n", "o", "s", "r", "e", "y", "s", "o", "t"],
+                "x": ["s", "e", "l", "a", "i", "g", "i", "e", "n", "u"],
+                "y": ["l", "z", "t", "n", "r", "k", "e", "n", "b", "m"],
+                "z": ["m", "u", "h", "u", "i", "t", "h", "e", "l", "v"] 
+            }
+            //https://stackoverflow.com/a/28191966
+            getKeyByValue = (object, value) => Object.keys(object).find(key => object[key] == value);
+            encodeCrow = () => {
+                crow_cipher.value = crow_plain.value.split("").
+                    map((x) => crow_lang_dict[x]).join("");
+            }
+            decodeCrow = () => {
+                crow_plain.value = crow_cipher.value.split("").
+                    map((x) => getKeyByValue(crow_lang_dict, x)).join("");
+            }
+            encodeVigenere = () => {
+                vige_cipher.value = vige_plain.value.split("").
+                    map((x,i) => vige_ciph_dict
+                        [vige_key.value[i % vige_key.value.length]]
+                        [Number(x)]).
+                    join("");
+            }
+            decodeVigenere = () => {
+                vige_array = vige_cipher.value.split("").
+                    map((x,i) => vige_ciph_dict
+                        [vige_key.value[i % vige_key.value.length]].
+                        indexOf(x));
+                vige_plain.value = vige_array.includes(-1) ? "Cannot Be Decoded" : vige_array.join("");
+            }
+        </script>
 </html>
