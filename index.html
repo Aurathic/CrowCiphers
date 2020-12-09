@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0"/>
-        <title>Crow Cipher</title>
+        <title>Crow Ciphers</title>
         <style>
             body {margin: 5% auto; background: #f2f2f2; color: #444444; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.8; text-shadow: 0 1px 0 #ffffff; max-width: 73%;}
             code {background: white;}
@@ -99,27 +99,42 @@
             }
             //https://stackoverflow.com/a/28191966
             getKeyByValue = (object, value) => Object.keys(object).find(key => object[key] == value);
+            encodeCrowChar = (x) => 
+                /[a-z]/.test(x) ? crow_lang_dict[x] : 
+                /[A-Z]/.test(x) ? crow_lang_dict[x.toLowerCase()].toUpperCase() :
+                x
             encodeCrow = () => {
-                crow_cipher.value = crow_plain.value.split("").
-                    map((x) => crow_lang_dict[x]).join("");
+                crow_cipher.value = crow_plain.value.split("")
+                    .map((x) => encodeCrowChar(x)).join("");
             }
             decodeCrow = () => {
-                crow_plain.value = crow_cipher.value.split("").
-                    map((x) => getKeyByValue(crow_lang_dict, x)).join("");
+                crow_plain.value = crow_cipher.value.split("")
+                    .map((x) => getKeyByValue(crow_lang_dict, x)).join("");
             }
+            encodeVigenereChar = (x,i) => 
+                /* /[0-9]/.test(x) ? 
+                vige_ciph_dict[vige_key.value[i % vige_key.value.length].toLowerCase()][Number(x)] : x */
+                vige_ciph_dict[vige_key.value[i % vige_key.value.length].toLowerCase()][Number(x)]
+            
             encodeVigenere = () => {
-                vige_cipher.value = vige_plain.value.split("").
-                    map((x,i) => vige_ciph_dict
-                        [vige_key.value[i % vige_key.value.length]]
-                        [Number(x)]).
-                    join("");
+                vige_plain.value = vige_plain.value.replace(/[^0-9]/, ""); 
+                vige_key.value = vige_key.value.replace(/[^a-zA-Z]/, "").toLowerCase(); //only letters can be input
+                if(vige_key.value.length > 0) {
+                    vige_cipher.value = vige_plain.value.split("")
+                        .map((x,i) => encodeVigenereChar(x,i))
+                        .join("");
+                }
             }
             decodeVigenere = () => {
-                vige_array = vige_cipher.value.split("").
-                    map((x,i) => vige_ciph_dict
-                        [vige_key.value[i % vige_key.value.length]].
-                        indexOf(x));
-                vige_plain.value = vige_array.includes(-1) ? "Cannot Be Decoded" : vige_array.join("");
+                if(vige_key.value.length > 0) {
+                    vige_cipher_str = vige_cipher.value.replace(/[^a-zA-Z]/, "").toLowerCase(); 
+                    console.log(vige_cipher_str);
+                    vige_array = vige_cipher_str.split("").
+                        map((x,i) => vige_ciph_dict
+                            [vige_key.value[i % vige_key.value.length]]
+                             .indexOf(x));
+                    vige_plain.value = vige_array.includes(-1) ? "Cannot Be Decoded" : vige_array.join("");
+                }
             }
         </script>
 </html>
