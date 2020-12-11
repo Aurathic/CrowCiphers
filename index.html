@@ -47,7 +47,7 @@
         <p>Crow Language is a <strong>monoalphabetic substitution cipher</strong>, which means that every letter in the <em>plaintext</em> (the original, non-encoded message) is substituted with one specific letter in the cipher 'alphabet', resulting in the <em>ciphertext</em> (the encoded message). For Crow language, the 'alphabet' is:</p>
         <table id="crow_table">
             <tr>
-                <th>Plaintext Alphabet</th>
+                <th>Ciphertext Alphabet</th>
                 <td>A</td>
                 <td>B</td>
                 <td>C</td>
@@ -76,7 +76,7 @@
                 <td>Z</td>
             </tr>
             <tr>
-                <th>Ciphertext Alphabet</th>
+                <th>Plaintext Alphabet</th>
                 <td>S</td>
                 <td>F</td>
                 <td>T</td>
@@ -105,10 +105,10 @@
                 <td>G</td>
             </tr>
         </table>
-        <p> So if you wanted to encode "CROW", you would go through each letter of "CROW" in order and find the associated letter - 'C' becomes 'T', 'R' becomes 'H', 'O' becomes 'E' and 'W' becomes 'A', leaving you with a ciphertext of "THEA".</p>
-        <p> If you want to <em>decode</em> a message, you follow the same process, except translating from the letters in the ciphertext alphabet to the letters in the plaintext alphabet. So 'T' decodes to 'C', 'H' decodes to 'R', and so on.</p>  
+        <p> So if you wanted to encode "CROW", you would go through each letter of "CROW" in order and find the associated letter - 'C' becomes 'N', 'R' becomes 'I', 'O' becomes 'L' and 'W' becomes 'S', leaving you with a ciphertext of "NILS".</p>
+        <p> If you want to <em>decode</em> a message, you follow the same process, except translating from the letters in the ciphertext alphabet to the letters in the plaintext alphabet. So 'N' decodes to 'C', 'I' decodes to 'R', and so on.</p>  
         <h3>Vigenère Cipher</h3>
-        <p>The version of the Vigenère cipher used in <em>Catastrophe Crow!</em> is significantly different than the normal version. To do a Vigenère cipher, you need a plaintext (as explained above) and a <em>key</em>, which is another phrase used in encoding. </p> In this cipher, you also need the following table: 
+        <p> The version of the Vigenère cipher used in <em>Catastrophe Crow!</em> is significantly different than the normal version. (It is probably more accurately described as a version of the variant Beaufort cipher with the <em>tabula recta</em> replaced with a special table, but it is most commonly referred to as a Vigenère cipher in the community.) To use this cipher, you need a plaintext (as explained above) and a <em>key</em>, which is another phrase used in encoding. </p> You also need the following table: 
         <table id="vige_table">
             <thead>
               <tr>
