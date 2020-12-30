@@ -31,6 +31,7 @@
         <header>
             <h1>Crow Ciphers</h1>
         </header>
+        <!-- Note: throughout the entire website, all instances of 'plaintext' and 'ciphertext' are swapped. -->
         <h2>Crow Language</h2>
             <div id="crow_lang" class="flex"> 
                 <textarea id="crow_plaintext" placeholder="Ciphertext (e.g. 'hiwtwxtls')" onInput="encodeCrow()"></textarea>
@@ -39,7 +40,7 @@
         <h2>Vigenère Cipher</h2>
             <div id="vige_ciph" class="flex">
                 <textarea id="vige_plaintext" placeholder="Ciphertext (e.g. '30781354841')" onInput="encodeVigenere()"></textarea>
-                <textarea id="vige_key" placeholder="Key (e.g. 'crow')" onInput="encodeVigenere()"></textarea>
+                <textarea id="vige_key" placeholder="Key (e.g. 'crow')" onInput="changeVigenereKey()"></textarea>
                 <textarea id="vige_ciphertext" placeholder="Plaintext (e.g. 'forotherkin')" onInput="decodeVigenere()"></textarea>
             </div>
         <h2>How They Work</h2>
@@ -876,14 +877,22 @@
                 crow_plain.value = crow_cipher.value.split("")
                     .map((x) => decodeCrowChar(x)).join("");
             }
+            resetPlaintext = () => {
+            	vige_plain.style["background-color"] = "";
+            	vige_plain.placeholder = "Ciphertext (e.g. '30781354841')";
+            }
+            errorPlaintext = () => {
+            	vige_plain.style["background-color"] = "pink";
+            	vige_plain.placeholder = "Cannot Be Decoded";
+            	vige_plain.value = "";
+            }
             encodeVigenereChar = (x,i) => 
-                /* /[0-9]/.test(x) ? 
-                vige_ciph_dict[vige_key.value[i % vige_key.value.length].toLowerCase()][Number(x)] : x */
+                /* /[0-9]/.test(x) ? vige_ciph_dict[vige_key.value[i % vige_key.value.length].toLowerCase()][Number(x)] : x */
                 vige_ciph_dict[vige_key.value[i % vige_key.value.length].toLowerCase()][Number(x)]
             
             encodeVigenere = () => {
                 vige_plain.value = vige_plain.value.replace(/[^0-9]/, ""); 
-                vige_key.value = vige_key.value.replace(/[^a-zA-Z]/, "").toLowerCase(); //only letters can be input
+                resetPlaintext();
                 if(vige_key.value.length > 0) {
                     vige_cipher.value = vige_plain.value.split("")
                         .map((x,i) => encodeVigenereChar(x,i))
@@ -898,8 +907,18 @@
                         map((x,i) => vige_ciph_dict
                             [vige_key.value[i % vige_key.value.length]]
                              .indexOf(x));
-                    vige_plain.value = vige_array.includes(-1) ? "Cannot Be Decoded" : vige_array.join("");
+                    if(vige_array.includes(-1)) {
+                    	errorPlaintext();
+                    } else {
+                    	resetPlaintext();
+                    	vige_plain.value = vige_array.join("");
+                    }
                 }
+            }
+            changeVigenereKey = () => {
+            	vige_key.value = vige_key.value.replace(/[^a-zA-Z]/, "").toLowerCase(); //only letters can be input
+            	vige_plain.value == "" ? 
+            	decodeVigenere() : encodeVigenere();
             }
     </script>
 </html>
